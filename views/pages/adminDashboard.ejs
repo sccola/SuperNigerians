@@ -16,7 +16,8 @@
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800;900&display=swap"
     rel="stylesheet">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
   <!-- Datatable CSS -->
   <link rel="stylesheet" href="  //cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 
@@ -160,14 +161,14 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-lg-inline text-gray-600 small">ADMIN</span>
+                <span class="mr-2 d-lg-inline text-gray-600 small"><%= currentUser.firstname %> <%= currentUser.lastname %></span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
                   <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Settings
+                  <%= currentUser.role %>
                 </a>
                 <!-- <a class="dropdown-item" href="/logout">
                   <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -197,14 +198,14 @@
           <!-- Content Row -->
           <div class="row">
 
-            <!-- Earnings (Monthly) Card Example -->
+            <!-- Total Users Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Users</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">40,000</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><%= totalUsers.length %></div>
                     </div>
                     <div class="col-auto">
                       <i class="fa fa-users fa-2x" aria-hidden="true"></i>
@@ -220,8 +221,8 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Active Users</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">2500</div>
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Workspace Admins</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><%= allAdmins.length%></div>
                     </div>
                     <div class="col-auto">
                       <i class="fa fa-users fa-2x" aria-hidden="true"></i>
@@ -232,21 +233,21 @@
               </div>
             </div>
 
-            <!-- Earnings (Monthly) Card Example -->
+            <!-- Total posts Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Pending Users</div>
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Posts</div>
                       <div class="row no-gutters align-items-center">
                         <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">70</div>
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><%= allPosts.length %></div>
                         </div>
                       </div>
                     </div>
                     <div class="col-auto">
-                      <i class="fa fa-users fa-2x" aria-hidden="true"></i>
+                      <i class="fas fa-comments fa-2x text-gray-300" aria-hidden="true"></i>
                     </div>
                   </div>
                 </div>
@@ -260,7 +261,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Posts Pending Review</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><%= totalUnverifiedPosts.length %></div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -286,38 +287,45 @@
                 <table id="postsTable" class="table table-bordered table-hover">
                   <thead class="thead-dark">
                     <tr>
-                      <th scope="col">#</th>
+                      <th scope="col">id</th>
                       <th scope="col">First</th>
                       <th scope="col">Last</th>
                       <th scope="col">Description</th>
+                      <th scope="col">Date</th>
                       <th scope="col">Status</th>
-                      <th scope="col">Btns</th>
+                      <th scope="col">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
+                    <% let id = 1 %>
+                    <% unverifiedPosts.forEach(function(posts) {%>
                     <tr>
-                      <th scope="row">1</th>
-                      <td>Tobi</td>
-                      <td>Osimosu</td>
-                      <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae hic dolores ut
-                        consequuntur! Inventore, dicta praesentium nobis labore rerum tempora corrupti quo ut quod,
-                        doloremque a, fugiat expedita minus. Nesciunt neque magni pariatur, in nulla illum ducimus
-                        eveniet fugit tempore sint nostrum perferendis, odit quibusdam et. Non officiis nemo quo illum,
-                        repudiandae excepturi et dicta dolorem minima sint cupiditate obcaecati autem fugit vitae
-                        consectetur iusto reiciendis dolorum recusandae quibusdam. Molestias dolor quo accusantium?
-                        Nobis incidunt sequi tempora quasi magnam atque qui iure provident ipsa suscipit neque, nesciunt
-                        numquam consectetur explicabo, quas quae omnis error veritatis quidem fugiat corporis voluptates
-                        fugit.</td>
+                      <th scope="row"><%= id %></th>
+                      <td><%= posts.creator.firstname %></td>
+                      <td><%= posts.creator.lastname %></td>
+                      <td><%= posts.body.slice(0,150) + "..." %> <a href="/post/<%= posts.slug %>">read more</a></td>
+                      <td><%= moment(posts.createdAt).format("MMM Do YY, h:mm:ss a") %></td>
                       <td>Pending</td>
                       <td>
                         <div class="row d-flex flex-column">
-                          <div class="col"><a href="#" class="btn btn-primary mb-3">View Post</a></div>
-                          <div class="col"><a href="#" class="btn btn-success mb-3">Approve</a></div>
-                          <div class="col"><a href="#" class="btn btn-secondary mb-3">Disapprove</a></div>
-                          <div class="col"><a href="#" class="btn btn-danger">Delete</a></div>
+                          <div class="col">
+                            <div class="btn-group">
+                              <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#" > Actions</a>
+                              <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                                <span title="Toggle dropdown menu"></span>
+                              </a>
+                              <ul class="dropdown-menu">
+                                <li><a onclick="toApprove('<%= posts._id%>', '<%= csrfToken%>')" href="#"><i class="fa fa-check" style= "color: green; padding: 10px;" aria-hidden="true"></i>Approve</a></li>
+                                <li><a onclick="toDelete('<%= posts._id%>', '<%= csrfToken%>')" href="#"><i class="fa fa-trash-o" style= "color: red ; padding: 10px;" aria-hidden="true"></i> Delete</a></li>
+                                <li class="divider"></li>
+                              </ul>
+                            </div>
+                          </div>
                         </div>
                       </td>
                     </tr>
+                    <% id +=1%>
+                  <% }) %>
                   </tbody>
                 </table>
               </div>
@@ -374,7 +382,12 @@
   <script src="/js/jquery.js"></script>
   <script src="/js/bootstrap.js"></script>
   <script src="/js/popper.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script> 
+  <script>
+    $(function(){
+     $('[data-tooltip]').tooltip();
+     });
+  </script>
   <!-- Datatables JS -->
   <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 
@@ -390,10 +403,8 @@
   <!-- Custom scripts for all pages-->
   <script src="/js/sb-admin-2.min.js"></script>
 
-
-
-
-
+  <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+  <script src="/js/adminDashboard.js"></script>
 </body>
 
 </html>

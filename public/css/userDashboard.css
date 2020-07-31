@@ -71,7 +71,6 @@ button.btn.prj-btn-primary:hover {
 button.btn.prj-btn-primary:focus {
   color: #fff;
   background-color: #00643c;
-  border: 1px solid var(--prim-colr);
   box-shadow: none;
 }
 

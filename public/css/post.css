@@ -28,3 +28,13 @@ p {
     width: 50%;
   }
 }
+.dislike-button:active{
+  background: #00643c !important;
+  color: #ffffff !important;
+
+}
+.like-button:active{
+  background: #00643c !important;
+  color: #ffffff !important;
+
+}

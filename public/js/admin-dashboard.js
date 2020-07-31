@@ -30,7 +30,6 @@ const Controller = {
  async submitProfileUpdateForm(event) {
     event.preventDefault();
     const form = document.getElementById('updateProfileFormId');
-
     let addValidation = true;
 
     if (form.checkValidity() === false) {

@@ -45,51 +45,51 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primar sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primar sidebar sidebar-dark accordion" id="accordionSidebar">
 
-        <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-          <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
-          </div>
-          <div class="sidebar-brand-text mx-3">Admin</div>
-        </a>
-  
-        <!-- Divider -->
-        <hr class="sidebar-divider my-0">
-  
-        <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
-          <a class="nav-link" href="/admin/dashboard">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
-        </li>
-  
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-        <!-- Nav Item - Users -->
-        <li class="nav-item active">
-          <a class="nav-link" href="/admin/dashboard/users">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Users</span></a>
-        </li>
-  
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-        <!-- Nav Item - Users -->
-        <li class="nav-item active">
-          <a class="nav-link" href="/admin/dashboard/profile">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Admin Profile</span></a>
-        </li>
-  
-        <!-- Sidebar Toggler (Sidebar) -->
-        <div class="text-center d-none d-md-inline">
-          <button role="button" class="rounded-circle border-0" id="sidebarToggle"></button>
-        </div>
-  
-      </ul>
-      <!-- End of Sidebar -->
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Admin</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/admin/dashboard">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Nav Item - Users -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/admin/dashboard/users">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Users</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Nav Item - Users -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/admin/dashboard/profile">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Admin Profile</span></a>
+            </li>
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button role="button" class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -238,7 +238,8 @@
                                             <td><%= u.email %></td>
                                             <td><%= u.phone %></td>
                                             <td>
-                                                <a href="<%= /delete/u._id %>" class="btn btn-danger">Delete</a>
+                                                <a onclick='Delete("<%= u._id %>", "<%= u.firstname %> <%= u.lastname %>", "<%= csrfToken %>")'
+                                                    href="#" class="btn btn-danger">Delete</a>
                                             </td>
                                         </tr>
                                         <% } %>
@@ -317,6 +318,8 @@
             $('#postsTable').DataTable();
         });
     </script>
+    <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+    <script src="/js/admin-user-list.js"></script>
 
     <!-- Core plugin JavaScript-->
     <script src="/js/jquery.easing.min.js"></script>

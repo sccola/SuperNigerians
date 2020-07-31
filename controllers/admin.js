@@ -3,16 +3,53 @@ const User = require("../models/user");
 const { renderPage } = require("../utils/render-page");
 const sendMail = require("../utils/send-email");
 
+
+const getAllPosts = async () => {
+  const allPosts = await Post.find().sort({date: 'desc'});
+  console.log(allPosts);
+  return allPosts;
+};
+
+const getVerifiedPosts = async () => {
+  const verify = await Post.find({ status: 'false'}).populate('creator').sort({date: 'desc'});
+  return verify;
+};
+
+const filterData = async (data, key) => {
+  let filteredData;
+  if(key === 'false') { filteredData = data.filter( (myData) => {
+      return myData.status === key;
+    });
+  }
+  if(key === 'true'){ filteredData = data.filter( (myData) => {
+      return myData.status === key;
+    });
+  }
+  if(key === 'admin'){ filteredData = data.filter( (myData) => {
+    return myData.role === key;
+  });
+}
+  return filteredData;
+};
+
 module.exports = {
   dashboard: async (req, res) => {
-    const data = {};
-    renderPage(
-      res,
-      "pages/adminDashboard",
-      data,
-      "Admin | Dashboard",
-      "/admin/dashboard"
-    );
+    const allPosts = await getAllPosts();
+    const totalUsers = await User.find();
+    const totalUnverifiedPosts = await filterData(allPosts, 'false');
+    const totalVerifiedPosts = await filterData(allPosts, 'true');
+    const unverifiedPosts = await getVerifiedPosts();
+    const allAdmins = await filterData(totalUsers, 'admin')
+
+    const data = {
+      allPosts,
+      totalUnverifiedPosts,
+      totalVerifiedPosts,
+      unverifiedPosts,
+      totalUsers,
+      allAdmins,
+    };
+    renderPage(res, 'pages/adminDashboard', data, 'Admin | Dashboard', '/admin/dashboard');
   },
 
   profile: async (req, res) => {
@@ -30,19 +67,18 @@ module.exports = {
     try {
       const { postId } = req.params;
 
-      const userPost = await Post.findById({ id: postId });
+      const userPost = await Post.findById({ _id: postId });
       if (!userPost) {
-        res
-          .status(400)
-          .json({ status: "error", message: "Post does not exist" });
+        req.flash("error", "Post does not exist");
       }
 
-      const deletePost = await Post.findByIdAndRemove({ id: postId });
-      if (!deletePost) {
-        res.flash("error", "An error occured while deleting post");
-      }
+      Post.findByIdAndDelete(postId,(err) => {
+        if(err) req.flash("error", "An error occured while deleting post");
+        console.log("Successful deletion");
+      });
 
       req.flash("Post deleted sucessfully");
+      res.redirect('back');
     } catch (err) {
       const error = new Error(err);
       error.httpStatusCode = 500;
@@ -67,7 +103,21 @@ module.exports = {
     }
   },
 
-  deleteUser: (req, res) => {},
+  deleteUser: async (req, res) => {
+    const { userId } = req.params;
+    try {
+      const users = await User.findOneAndDelete({ _id: userId });
+      if (!users) return req.flash("error", "No User found !");
+
+
+    } catch (err) {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    }
+
+
+  },
 
   approvePost: async (req, res) => {
     try {
@@ -96,6 +146,7 @@ module.exports = {
         message,
       });
       req.flash("Post Approved sucessfully");
+      return res.redirect('back')
     } catch (err) {
       const error = new Error(err);
       error.httpStatusCode = 500;

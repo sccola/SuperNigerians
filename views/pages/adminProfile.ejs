@@ -16,13 +16,15 @@
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800;900&display=swap"
     rel="stylesheet">
-
   <!-- Datatable CSS -->
-  <link rel="stylesheet" href="  //cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 
   <!-- Custom styles for this template-->
   <!-- <link href="css/sb-admin-2.min.css" rel="stylesheet"> -->
+  <!-- Boilerplate CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
   <link href="/css/adminDashboard.css" rel="stylesheet">
+
   <style>
     #postsTable {
       counter-reset: serial-number;
@@ -91,22 +93,82 @@
     </ul>
     <!-- End of Sidebar -->
 
+    <!-- Update profile modal -->
+    <div class="modal fade" id="updateProfileModal" tabindex="-1" role="dialog"
+      aria-labelledby="updateProfileModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <header class="modal-header">
+            <h4 class="modal-title " id="updateProfileModalLabel">Update Profile</h4>
+            <button role="button" type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </header>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-11 mx-auto py-3">
+                <form id="updateProfileFormId" name="updateProfileForm" class="needs-validation">
+                  <div class="form-group">
+                    <label for="firstName">First name</label>
+                    <input type="text" class="form-control" id="firstName" name="firstname"
+                      value="<%= user.firstname %>" placeholder="John" autocomplete="given-name" autocapitalize="on"
+                      minlength="2">
+                  </div>
+                  <div class="form-group">
+                    <label for="lastName">Last name</label>
+                    <input type="text" class="form-control" id="lastName" name="lastname" placeholder="Doe"
+                      autocomplete="family-name" value="<%=user.lastname %>" autocapitalize="on" minlength="2">
+                  </div>
+                  <div class="form-group">
+                    <label for="userName">Username</label>
+                    <input type="text" class="form-control" value="<%=user.username %>" id="userName" name="username"
+                      placeholder="johnDoe" autocomplete="username">
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" class="form-control" value="<%=user.phone %>" id="phone" name="phone"
+                      autocomplete="url">
+                  </div>
+                  <div class="form-group">
+                    <!-- Set as select and iterate over -->
+                    <label for="country">Country</label>
+                    <input type="text" class="form-control" id="country" name="country" placeholder="Nigeria"
+                      autocomplete="country-name" autocapitalize="on">
+                  </div>
+                  <div class="form-group">
+                    <label for="state-city">State/City</label>
+                    <input type="text" class="form-control" id="state-city" name="stateOrCity" placeholder="Lagos">
+                  </div>
+                </form>
+                <div class="text-center">
+                  <button class="btn btn-lg prj-btn-primary " id="btnUpdateProfile">Submit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <!-- Content Wrapper -->
-    <div class="container-fluid main-container ">
+    <div class="container-fluid main-container pt-5">
       <div class="row">
         <div class="col-12">
           <div class="profile-container my-3 d-flex flex-column justify-content-center align-items-center flex-sm-row">
-            <img style="height: 200px;" src="https://picsum.photos/500" alt="my avatar"
-              class="profile-img img-fluid rounded-circle mr-sm-4">
+            <img src="<%= user.photo %>  alt=" my avatar" class="profile-img img-fluid rounded-circle mr-sm-4">
             <div class="d-flex flex-column justify-content-center align-items-center ml-sm-4 mt-3 mt-sm-0">
-              <h1 class="h3"></h1>
-              <p class="mb-0 lead prj-text-normal">
-                <span class="font-weight-normal d-inline-block"></span>
+              <h1> clss="h3"><%= user.username || user.firstname %> </h1>
+              <p class="mb-0 lead prj-text-normal ">
+                <span class="font-weight-normal d-inline-block ">
+                  <%= userPosts.length %>
+                </span>
                 posts
-                <span class="font-weight-normal d-inline-block"></span>
-                likes <span class="font-weight-normal d-inline-block">10</span> shares</p>
-              <!-- Button trigger modal -->
-              <button role="button" type="button" class="btn btn-secondary mt-3" data-toggle="modal"
+                <span class="font-weight-normal d-inline-block ">
+                  <%= numberOfLikes %>
+                </span>
+                likes</p>
+              <button type="button" class="btn btn-sm prj-btn-primary mt-3" data-toggle="modal"
                 data-target="#updateProfileModal">
                 Update profile
               </button>
@@ -114,13 +176,13 @@
           </div>
           <div class="col-11 mx-auto">
             <ul class="nav nav-tabs justify-content-center my-3" role="tablist">
-              <li class="nav-item mr-2" role="presentation">
-                <a class="nav-link active" id="tabs-my-posts-tab" data-toggle="pill" href="#tabs-my-posts" role="tab"
-                  aria-controls="tabs-my-posts" aria-selected="false">My posts</a>
+              <li class="nav-item prj-nav-item mr-2" role="presentation">
+                <a class="nav-link prj-nav-link active" id="tabs-my-posts-tab" data-toggle="pill" href="#tabs-my-posts" role="tab"
+                  aria-controls="tabs-my-posts" aria-selected="true">My posts</a>
               </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link" id="tabs-create-post-tab" data-toggle="pill" href="#tabs-create-post" role="tab"
-                  aria-controls="tabs-create-post" aria-selected="true">Create a post</a>
+              <li class="nav-item prj-nav-item" role="presentation">
+                <a class="nav-link prj-nav-link" id="tabs-create-post-tab" data-toggle="pill" href="#tabs-create-post" role="tab"
+                  aria-controls="tabs-create-post" aria-selected="false">Create a post</a>
               </li>
             </ul>
             <div class="tab-content" id="tabs-tabContent">
@@ -128,20 +190,31 @@
                 aria-labelledby="tabs-my-posts-tab">
                 <!-- My posts -->
                 <div class="my-posts-container row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+                  <% if (userPosts.length === 0) { %>
+                  <div class="my-post col px-1 py-3 mx-auto my-2">
+                    <img class="img-fluid" src="/images/no-posts.svg" alt="No posts">
+                    <p class="small text-center">You have not created a post yet</p>
+                    <p class="small text-center">Click on the 'Create a post' tab to create a post</p>
+                  </div>
+                  <% } %>
+                  <% for( post in userPosts) { %>
                   <div class="my-post col px-1 py-3 position-relative my-2">
                     <div
                       class="default-post-content py-2 d-flex flex-column align-items-center justify-content-space-around">
-                      <img src="https://picsum.photos/500" class="img-fluid" alt="post header image" />
+                      <img src="<%= post.postPicture %>  class=" img-fluid" alt="post header image" />
                       <p class="my-4 lead font-weight-normal text-center">
+                        <%= post.title %>
                       </p>
                     </div>
                     <div
                       class="hover-post-content px-4 position-absolute d-flex flex-column align-items-center justify-content-center">
                       <p class="text-center">
+                        <%= post.description %>
                       </p>
                       <a href="#" class="btn bg-white text-secondary">View post</a>
                     </div>
                   </div>
+                  <% } %>
                 </div>
               </div>
               <div class="tab-pane fade" id="tabs-create-post" role="tabpanel" aria-labelledby="tabs-create-post-tab">
@@ -218,6 +291,9 @@
   <script src="/js/jquery.js"></script>
   <script src="/js/bootstrap.js"></script>
   <script src="/js/popper.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="/js/admin-dashboard.js"></script>
+
 
   <!-- Datatables JS -->
   <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>

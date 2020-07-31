@@ -25,21 +25,23 @@
 							<%- post[0].body %>
 						</p>
 					</div>
-
 					<div class="col-12 mt-4 mb-4 py-0 py-md-4">
 						<div class="d-flex">
 							<div class="pr-3 pr-md-5">
-								<img src=<%- post[0].creator.photo %> class="rounded-circle" alt="Image" height="80px">
+								<img src=<%- user[0].photo %> class="rounded-circle" alt="Image" height="80px">
 							</div>
-
 							<div class="text-dark pt-2 text-left">
 								<span class="text-secondary">Written by</span>
-								<h6 class="text-black pt-2"><a href="#"><%- post[0].creator.username %>
+								<h6 class="text-black pt-2"><a href="#"><%- user[0].firstname + " " + user[0].lastname %>
 									</a><span><%- post[0].date.toGMTString() %></span>
 								</h6>
 							</div>
 						</div>
 					</div>
+					<form name="ratings">
+						<input class="btn btn-dark like-button my-3 mr-3" type="button" name="btnLike" value="Like">
+						<input class="btn btn-dark dislike-button my-3 mx-3" type="button" name="btnDislike" value="Dislike">
+					</form>
 					<!-- comment session -->
 
 					<div class="row " style="width: 100%;">

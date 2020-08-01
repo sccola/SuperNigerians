@@ -11,7 +11,7 @@ const home = (req, res) => {
     path: 'home'
   };
 
-  return renderPage(res, 'pages/contactUs', data, 'Demo Page');
+  return renderPage(res, 'index', data, 'Demo Page');
 };
 
 const profile = (req, res) => {

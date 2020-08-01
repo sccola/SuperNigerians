@@ -1,6 +1,7 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
-const User = require('../models/user')
+const User = require('../models/user');
+const CommentReplies = require('../models/comment-replies');
 
 const postExist = async (postId) => {
     const post = await Post.findById({ _id: postId });
@@ -17,6 +18,15 @@ const commentExist = async (commentId) => {
     return comment;
 }
 
+const createCommentReplies = async (userId, body, name) => {
+    const comment = await CommentReplies.create({
+        comment: body,
+        creator: userId,
+        name: name
+    });
+    return comment;
+}
+
 const createComment = async (userId, body, name) => {
     const comment = await Comment.create({
         comment: body,
@@ -27,7 +37,6 @@ const createComment = async (userId, body, name) => {
     });
     return comment;
 }
-
 module.exports = {
     addComment: async (req, res) => {
         try{
@@ -84,5 +93,34 @@ module.exports = {
         } catch (err) {
             res.stats(400).json({err});
         }
-    }
+    },
+
+    addCommentReplies: async (req, res) => {
+        try{
+          //find campground
+            const { commentId } = req.params;
+            const { body } = req.body;
+            const user = req.session.user
+            const comment = await commentExist(commentId);
+            if(!comment) {
+                return res.status(400).json({
+                    message: "Post not found"
+                });
+            }
+            let commentReplies;
+            if(!user) {
+                const anonymous = await anonymousUser();
+                commentReplies = await createcommentReplies(anonymous[0]._id, body, anonymous[0].firstname);
+            } else {
+                commentReplies = await createcommentReplies(user._id, body, `${user.firstname} ${user.lastname}`);
+            }
+            comment.commentReplies.push(comment);
+            await comment.save();
+            
+            res.redirect('back');
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({err});
+        }
+    },
 }

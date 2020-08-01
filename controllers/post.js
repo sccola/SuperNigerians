@@ -147,10 +147,10 @@ const uploadPhoto = async (req, res, mediaType, sImage, size) => {
         })
     }
     try {
-        const employerLogoUpload = await cloud.uploader.upload(imageFile.tempFilePath);
+        const userLogoUpload = await cloud.uploader.upload(imageFile.tempFilePath);
         const {
             url
-        } = employerLogoUpload;
+        } = userLogoUpload;
         // console.log(url)
         return url;
 

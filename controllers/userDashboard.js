@@ -8,7 +8,7 @@ exports.getUserDetails = async (req, res) => {
         res.redirect("/login");
     }
     const user = await User.findOne({ _id: req.session.user._id });
-    if (user.role !== "user" || user.role !== "admin") {
+    if (user.role !== "user") {
         res.redirect("/");
     }
     const userComments = await Comment.find({ creator: user._id });

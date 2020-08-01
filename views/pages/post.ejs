@@ -4,10 +4,11 @@
 <head>
 	<%- include('../templates/head') %>
 	<link rel="stylesheet" type="text/css" href="css/post.css" />
-	
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"/>
+
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet" />
 	<title>Post</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+		integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 
 <body>
@@ -19,7 +20,8 @@
 			<% if( post &&  post.length > 0){ %>
 			<div class="container mt-2 mt-md-3">
 				<div class="">
-					<img src="<%- post[0].postPicture %>"  alt="single post picture" style='align-items: center;' class="img-fluid" id="singlePostPix">
+					<img src="<%- post[0].postPicture %>" alt="single post picture" style='align-items: center;'
+						class="img-fluid" id="singlePostPix">
 				</div>
 				<div class="row" style="margin: 0;">
 					<div class="text-left  px-3 px-md-0">
@@ -35,83 +37,92 @@
 							</div>
 							<div class="text-dark pt-2 text-left">
 								<span class="text-secondary">Written by</span>
-								<h6 class="text-black pt-2"><a href="#"><%- post[0].creator.firstname + " " + post[0].creator.lastname %>
+								<h6 class="text-black pt-2"><a
+										href="#"><%- post[0].creator.firstname + " " + post[0].creator.lastname %>
 									</a><span><%- post[0].date.toGMTString() %></span>
 								</h6>
 							</div>
 						</div>
 					</div>
 					<form name="ratings">
-						<i onclick="" id="user-like" class="fa fa-thumbs-o-up like-button name="Like"><text id="like" style="margin-left: 4px;"">like</text></i>
-							
-						<i onclick="" id="user-unlike" class="fa fa-thumbs-o-down dislike-button" name="btnDislike"><text id="unlike" style="margin-left: 4px;">Unlike</text></i>
+						<i onclick="" data-like=<%- JSON.stringify(post[0].like) %>
+							data-creator=<%- post[0].creator._id %> data-slug=<%- post[0].slug %>
+							data-token=<%= csrfToken %> id="user-like" class="react fa fa-thumbs-o-up like-button"
+							name="Like"> <%- post[0].like.length %><text id="like"
+								style="margin-left: 4px;">like</text></i>
+
+						<i onclick="" data-dislike=<%- JSON.stringify(post[0].dislike) %>
+							data-creator=<%- post[0].creator._id %> data-slug=<%- post[0].slug %> id="user-unlike"
+							class="react fa fa-thumbs-o-down dislike-button" name="btnDislike">
+							<%- post[0].dislike.length %>
+							<span id="unlike" style="margin-left: 4px;"> dislike</span></i>
 					</form>
 					<!-- comment session -->
-					
+
 					<div class="row " style="width: 100%;">
 						<div class="col-md-12">
 							<h5>Comments</h5>
-						<% post[0].comments.forEach((comment) => { %>
+							<% post[0].comments.forEach((comment) => { %>
 							<hr>
-							<span class="float-right"><%=  moment(comment.createdAt).startOf('minutes').fromNow() %></span>
+							<span
+								class="float-right"><%=  moment(comment.createdAt).startOf('minutes').fromNow() %></span>
 							<br>
 							<% if(currentUser) { %>
-								<% if(currentUser.role ==='admin') {%>
-								<a href="/admin/comment/<%= post[0]._id %>/<%= comment._id %>/delete" class="float-right btn btn-danger" style="margin-top: 20px">Delete Comment</a>
-								<% } %>
+							<% if(currentUser.role ==='admin') {%>
+							<a href="/admin/comment/<%= post[0]._id %>/<%= comment._id %>/delete"
+								class="float-right btn btn-danger" style="margin-top: 20px">Delete Comment</a>
 							<% } %>
+							<% } %>
+
 							<div>
-					
+
 								<div class="">
 									<p class="align-left"><%= comment.comment %></p>
 									<h6><%= comment.name %></h6>
-									
+
 								</div>
 							</div>
 							<!-- <form action="" id= 'replies'>
 								<input type="text" class="form-control">
 								<input type="submit" class="btn btn-success float-right">
 							</form> -->
-						<% }) %>
-							
+							<% }) %>
+
 						</div>
-						
-					<div class="col-12 p-4 p-md-5 bg-light">
-						<h6 class="pb-2 pb-md-4">Add your comment</h6>
-						<form action="/post/<%- post[0]._id %>/comment" method="POST" class="text-left px-0 px-md-3">
-							<input type="hidden" name="_csrf" value="<%= csrfToken %>">
-							<div>
-								<textarea class="form-control col-12" name="body" placeholder="Your comment here" required></textarea>
-							</div>
-							<button type="submit" class="btn btn-dark px-4 px-md-5 mt-3 mt-md-4">
-								Comment
-							</button>
-						</form>
+
+						<div class="col-12 p-4 p-md-5 bg-light">
+							<h6 class="pb-2 pb-md-4">Add your comment</h6>
+							<form action="/post/<%- post[0]._id %>/comment" method="POST"
+								class="text-left px-0 px-md-3">
+								<input type="hidden" name="_csrf" value="<%= csrfToken %>">
+								<div>
+									<textarea class="form-control col-12" name="body" placeholder="Your comment here"
+										required></textarea>
+								</div>
+								<button type="submit" class="btn btn-dark px-4 px-md-5 mt-3 mt-md-4">
+									Comment
+								</button>
+							</form>
+						</div>
 					</div>
-				</div>
-			</div>
-			<% } %>
+					<% } %>
 		</section>
 	</main>
+
+
+	<script src="/js/reaction.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 	<script src="/js/jquery.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 	<script>
-		<% if (success && success.length > 0) { %>
-		  console.log('<%= success %>')
-		  toastr.success('<%= success %>'); 
-		<% } %>
+		< %
+		if (success && success.length > 0) {
+			% >
+			console.log('<%= success %>')
+			toastr.success('<%= success %>'); <
+			%
+		} % >
 	</script>
-
-<script>
-const like = document.getElementById('user-like');
-const unlike = document.getElementById('user-unlike');
-like.addEventListener('click',() =>{
-	document.getElementById('like').innerHTML='liked';
-})
-unlike.addEventListener('click', () => {
-	document.getElementById('unlike').innerHTML = 'Unliked';
-})
-</script>
 </body>
 
 </html>

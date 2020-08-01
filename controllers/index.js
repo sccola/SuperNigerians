@@ -30,10 +30,15 @@ const terms = (req, res) => {
   return renderPage(res, 'pages/termsConditions', {} , 'Terms and Condition', '/terms');
 }
 
+const contactUs = (req, res) => {
+  return renderPage(res, 'pages/contactUs', {} , 'Contact Us', '/contactUs');
+}
+
 
 
 module.exports = {
   home,
   profile,
-  terms
+  terms,
+  contactUs
 };

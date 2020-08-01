@@ -25,7 +25,7 @@ img {
 
 .section-b {
   position: relative;
-  background: url("/images/bg_1.jpg");
+  background: url(../images/landing-page.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;

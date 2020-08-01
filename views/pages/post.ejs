@@ -7,6 +7,7 @@
 	
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"/>
 	<title>Post</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 
 <body>
@@ -41,8 +42,9 @@
 						</div>
 					</div>
 					<form name="ratings">
-						<input class="btn btn-dark like-button my-3 mr-3" type="button" name="btnLike" value="Like">
-						<input class="btn btn-dark dislike-button my-3 mx-3" type="button" name="btnDislike" value="Dislike">
+						<i onclick="" id="user-like" class="fa fa-thumbs-o-up like-button name="Like"><text id="like" style="margin-left: 4px;"">like</text></i>
+							
+						<i onclick="" id="user-unlike" class="fa fa-thumbs-o-down dislike-button" name="btnDislike"><text id="unlike" style="margin-left: 4px;">Unlike</text></i>
 					</form>
 					<!-- comment session -->
 					
@@ -98,6 +100,17 @@
 		  toastr.success('<%= success %>'); 
 		<% } %>
 	</script>
+
+<script>
+const like = document.getElementById('user-like');
+const unlike = document.getElementById('user-unlike');
+like.addEventListener('click',() =>{
+	document.getElementById('like').innerHTML='liked';
+})
+unlike.addEventListener('click', () => {
+	document.getElementById('unlike').innerHTML = 'Unliked';
+})
+</script>
 </body>
 
 </html>

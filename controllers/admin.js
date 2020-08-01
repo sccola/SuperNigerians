@@ -1,5 +1,6 @@
 const Post = require("../models/post");
 const User = require("../models/user");
+const Comment = require("../models/comment");
 const {
   renderPage
 } = require("../utils/render-page");
@@ -63,7 +64,32 @@ module.exports = {
   },
 
   profile: async (req, res) => {
-    const data = {};
+    if (!req.session.user) {
+      res.redirect("/login");
+  }
+  const user = await User.findOne({ _id: req.session.user._id });
+  if (user.role !== "admin") {
+      res.redirect("/");
+  }
+  const userComments = await Comment.find({ creator: user._id });
+  const userPosts = await Post.find({ creator: user._id });
+  const likes = [];
+  let numberOfLikes = 0;
+  userComments.forEach((comment) => {
+      likes.push(comment.like);
+  });
+  if (likes.length !== 0) {
+      numberOfLikes = likes.reduce((a, b) => {
+          return a + b;
+      });
+  }
+  const data = {
+      user,
+      userComments,
+      userPosts,
+      numberOfLikes,
+  };
+      console.log(data)
     renderPage(
       res,
       "pages/adminProfile",

@@ -1,22 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const commentSchema = new Schema(
+const commentRepliesSchema = new Schema(
     {
         comment: {
             type: String,
             required: true
         },
-        like: {
-            type: Number,
-        },
-        dislike: {
-            type: Number,
-        },
-        commentReplies: [{
-            type: Schema.Types.ObjectId,
-            ref: 'CommentReplies'
-        }],
         creator: {
             type: Schema.Types.ObjectId,
             ref: 'Users',
@@ -29,4 +19,4 @@ const commentSchema = new Schema(
     { timestamps: true }
 );
 
-module.exports = mongoose.model('Comment', commentSchema);
+module.exports = mongoose.model('CommentReplies', commentRepliesSchema);

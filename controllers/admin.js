@@ -245,5 +245,19 @@ module.exports = {
       error.httpStatusCode = 500;
       return next(error);
     }
+  },
+
+  deleteComment: async (req, res) => {
+    try {
+      const { commentId } = req.params;
+
+      Comment.findByIdAndDelete(commentId ,(err) => {
+        if(err) req.flash("error", "An error occured while deleting comment");
+        req.flash('success', "comment deleted sucessfully");
+        res.redirect('back');  
+      });
+    } catch(err) {
+
+    }
   }
 };

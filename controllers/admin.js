@@ -150,13 +150,31 @@ module.exports = {
     }
   },
 
-  suspendUser: async (req, res, next) => {
+  blockUser: async (req, res, next) => {
     const {
       userId
     } = req.params;
     try {
       const users = await User.findByIdAndUpdate(userId,{
          active: 'false'
+      });
+      if (!users) return req.flash("error", "No User found !");
+
+      return res.redirect('back')
+    } catch (err) {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    }
+
+  },
+  unblockUser: async (req, res, next) => {
+    const {
+      userId
+    } = req.params;
+    try {
+      const users = await User.findByIdAndUpdate(userId,{
+         active: 'true'
       });
       if (!users) return req.flash("error", "No User found !");
 

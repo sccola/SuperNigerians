@@ -52,7 +52,7 @@ module.exports = {
     const unverifiedPosts = await getUnverifiedPosts();
     const allAdmins = await filterData(totalUsers, 'admin')
 
-    console.log(unverifiedPosts);
+    // console.log(unverifiedPosts);
     const data = {
       allPosts,
       totalUnverifiedPosts,

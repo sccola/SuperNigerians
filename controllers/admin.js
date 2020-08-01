@@ -47,13 +47,12 @@ const filterData = async (data, key) => {
 module.exports = {
   dashboard: async (req, res) => {
     const allPosts = await getAllPosts();
-    const totalUsers = await User.find();
+    const totalUsers = await User.find()
     const totalUnverifiedPosts = await filterData(allPosts, 'false');
     const totalVerifiedPosts = await filterData(allPosts, 'true');
     const unverifiedPosts = await getUnverifiedPosts();
     const allAdmins = await filterData(totalUsers, 'admin')
 
-    // console.log(unverifiedPosts);
     const data = {
       allPosts,
       totalUnverifiedPosts,
@@ -111,6 +110,16 @@ module.exports = {
       if (!userPost) {
         req.flash("error", "Post does not exist");
       }
+
+      const userCreator = await User.findById({ _id:userPost.creator })
+
+      // filter out post from the user array
+      const postsArray = await userCreator.posts.filter((post) => {
+        return String(post) !== String(postId);
+      });
+
+      userCreator.posts = postsArray;
+      await userCreator.save();
 
       Post.findByIdAndDelete(postId,(err) => {
         if(err) req.flash("error", "An error occured while deleting post");

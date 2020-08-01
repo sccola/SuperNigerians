@@ -22,7 +22,7 @@ router.patch('/suspend/:userId', authorizeAdmin, suspendUser);
 router.delete('/delete/:postId', authorizeAdmin, deletePost);
 router.put('/posts/:postId/approve', authorizeAdmin, approvePost);
 router.put('/posts/:postId/disapprove', authorizeAdmin, disApprovePost);
-router.get('/comment/:commentId/delete', authorizeAdmin, deleteComment);
+router.get('/comment/:postId/:commentId/delete', authorizeAdmin, deleteComment);
 
 
 module.exports = router;

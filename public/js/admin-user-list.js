@@ -20,14 +20,9 @@ function toSuspend(userId, userName, csrf) {
                 text: `You have successfully suspended ${userName} from Super Nigeria platform`,
                 type: 'success',
             }).then(() => {
-                swal({
-                    title: 'Deleted!',
-                    text: `You have successfully deleted ${userName} from Super Nigeria platform`,
-                    type: 'success',
-                }).then(() => {
-                    window.location = '/admin/dashboard/users';
-                });
-            })
+                window.location = '/admin/dashboard/users';
+            });
+
         }
     });
 }

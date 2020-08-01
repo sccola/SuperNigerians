@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   overflow-x: hidden;
   width: 100%;
@@ -17,6 +18,7 @@ a:hover {
   list-style-type: none;
   color: inherit;
 }
+
 p {
   line-height: 1.9;
   word-spacing: 1;
@@ -28,13 +30,22 @@ p {
     width: 50%;
   }
 }
-.dislike-button:active{
+
+.dislike-button:active {
   /* background: #00643c !important; */
   color: #00643c !important;
 
 }
-.like-button:active{
+
+.like-button:active {
   /* background: #00643c !important; */
   color: #00643c !important;
+}
 
+.react {
+  cursor: pointer;
+}
+
+#unlike {
+  
 }

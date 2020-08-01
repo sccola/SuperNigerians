@@ -72,7 +72,7 @@ module.exports = {
         const posts = await Post.find({}).sort({
             date: 'desc'
         });
-
+        
         const data = {
             posts,
             path: 'post'
@@ -87,6 +87,7 @@ module.exports = {
         }).populate('comments').populate('creator')
         const data = {
             post,
+            success: req.flash('success'),
             path: 'post'
         };
         renderPage(res, 'pages/post', data, 'Post', '/post');

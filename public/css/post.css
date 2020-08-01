@@ -29,12 +29,12 @@ p {
   }
 }
 .dislike-button:active{
-  background: #00643c !important;
-  color: #ffffff !important;
+  /* background: #00643c !important; */
+  color: #00643c !important;
 
 }
 .like-button:active{
-  background: #00643c !important;
-  color: #ffffff !important;
+  /* background: #00643c !important; */
+  color: #00643c !important;
 
 }

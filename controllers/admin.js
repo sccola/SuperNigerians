@@ -52,6 +52,7 @@ module.exports = {
     const unverifiedPosts = await getUnverifiedPosts();
     const allAdmins = await filterData(totalUsers, 'admin')
 
+    console.log(unverifiedPosts);
     const data = {
       allPosts,
       totalUnverifiedPosts,
@@ -140,13 +141,13 @@ module.exports = {
     }
   },
 
-  deleteUser: async (req, res, next) => {
+  suspendUser: async (req, res, next) => {
     const {
       userId
     } = req.params;
     try {
-      const users = await User.findOneAndDelete({
-        _id: userId
+      const users = await User.findByIdAndUpdate(userId,{
+         active: 'false'
       });
       if (!users) return req.flash("error", "No User found !");
 
@@ -243,6 +244,20 @@ module.exports = {
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);
+    }
+  },
+
+  deleteComment: async (req, res) => {
+    try {
+      const { commentId } = req.params;
+
+      Comment.findByIdAndDelete(commentId ,(err) => {
+        if(err) req.flash("error", "An error occured while deleting comment");
+        req.flash('success', "comment deleted sucessfully");
+        res.redirect('back');  
+      });
+    } catch(err) {
+
     }
   }
 };

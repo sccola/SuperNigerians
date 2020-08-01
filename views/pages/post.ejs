@@ -80,7 +80,7 @@
 						<form action="/post/<%- post[0]._id %>/comment" method="POST" class="text-left px-0 px-md-3">
 							<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 							<div>
-								<textarea class="form-control col-12" name="body" placeholder="Your comment here"></textarea>
+								<textarea class="form-control col-12" name="body" placeholder="Your comment here" required></textarea>
 							</div>
 							<button type="submit" class="btn btn-dark px-4 px-md-5 mt-3 mt-md-4">
 								Submit

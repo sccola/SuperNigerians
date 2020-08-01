@@ -27,7 +27,7 @@ const profile = (req, res) => {
 };
 
 const terms = (req, res) => {
-  return renderPage(res, 'pages/terms-conditions', {} , 'Terms and Condition', '/terms');
+  return renderPage(res, 'pages/termsConditions', {} , 'Terms and Condition', '/terms');
 }
 
 

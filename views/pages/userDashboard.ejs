@@ -236,21 +236,21 @@
                     <p class="small text-center">Click on the 'Create a post' tab to create a post</p>
                   </div>
                   <% } %>
-                  <% for( post in userPosts) { %>
+                  <% for(var i=0; i <userPosts.length; i++) { %>
                   <div class="my-post col px-1 py-3 position-relative my-2">
                     <div
                       class="default-post-content py-2 d-flex flex-column align-items-center justify-content-space-around">
-                      <img src="<%= post.postPicture %>  class=" img-fluid" alt="post image" />
+                      <img src=<%= userPosts[i].postPicture %>  class="img-fluid" alt="post image" />
                       <p class="my-4 lead font-weight-normal text-center">
-                        <%= post.title %>
+                        <%= userPosts[i].title %>
                       </p>
                     </div>
                     <div
                       class="hover-post-content px-4 position-absolute d-flex flex-column align-items-center justify-content-center">
                       <p class="text-center">
-                        <%= post.description %>
+                        <%= userPosts[i].description %>
                       </p>
-                      <a href="#" class="btn bg-white text-secondary">View post</a>
+                      <a href=<%- "/" + userPosts[i].slug %> class="btn bg-white text-secondary">View post</a>
                     </div>
                   </div>
                   <% } %>

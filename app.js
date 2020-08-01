@@ -58,20 +58,9 @@ app.use((req, res, next) => {
 });
 // express file upload
 app.use(fileupload({ useTempFiles: true }));
-// ************ REGISTER ROUTES HERE ********** //
 // app.get("/", (req, res) => {
 //   res.send("Welcome to Express!");
 // });
-app.use(auth);
-app.use(indexRouter);
-app.use(postRouter);
-// ************ END ROUTE REGISTRATION ********** //
-
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-  next(createError(404));
-});
-
 
 const MONGO_URI = process.env.MONGODB_URI;
 mongoose.connect(MONGO_URI, {
@@ -86,16 +75,32 @@ mongoose.connect(MONGO_URI, {
   })
   .catch((err) => console.log("Connection to database failed =>", err));
 
-// error handler
-app.use((err, req, res, next) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+// ************ REGISTER ROUTES HERE ********** //
+app.use(auth);
+app.use(indexRouter);
+app.use(postRouter);
+// ************ END ROUTE REGISTRATION ********** //
+  
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  const error = new Error('Not found');
+	error.status = 404;
+	next(error);
+});
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
-  next();
+// error handler
+app.use((error, req, res, next) => {
+
+  // next();
+  if (error.status === 404) {
+    console.log(error);
+    res.status(404).render('pages/error404');
+  }
+  else {
+    console.log(error);
+    res.status(500).render('pages/error500');
+  }
+
 });
 
 

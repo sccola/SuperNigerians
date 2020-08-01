@@ -247,17 +247,19 @@ module.exports = {
     }
   },
 
-  deleteComment: async (req, res) => {
+  deleteComment: async (req, res, next) => {
     try {
       const { commentId } = req.params;
 
       Comment.findByIdAndDelete(commentId ,(err) => {
         if(err) req.flash("error", "An error occured while deleting comment");
-        req.flash('success', "comment deleted sucessfully");
+        req.flash('success', "Comment deleted sucessfully");
         res.redirect('back');  
       });
     } catch(err) {
-
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     }
   }
 };

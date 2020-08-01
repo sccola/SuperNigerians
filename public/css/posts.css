@@ -1,5 +1,6 @@
 body {
   font-family: "Lora", sans-serif;
+  background: #c0c0c0d3 !important;
 }
 
 .meta {
@@ -42,5 +43,15 @@ body {
 }
 
 .read-more {
-    color: #00643c !important;
+  color: #00643c !important;
+}
+
+#posts .card {
+  transition: all 0.3s ease-in-out;
+  background: #ffffff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+#posts .card:hover {
+  transform: scale(0.97);
 }

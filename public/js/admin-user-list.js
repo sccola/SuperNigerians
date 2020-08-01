@@ -1,4 +1,4 @@
-function Delete(userId, userName, csrf) {
+function toDelete(userId, userName, csrf) {
     swal({
         title: `Are you sure you want to delete ${userName}?`,
         type: 'error',
@@ -12,15 +12,17 @@ function Delete(userId, userName, csrf) {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': csrf,
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
                 },
-            });
-            swal({
-                title: 'Deleted!',
-                text: `You have successfully deleted ${userName} from Super Nigeria platform`,
-                type: 'success',
             }).then(() => {
-                window.location = '/admin/dashboard/users';
-            });
+                swal({
+                    title: 'Deleted!',
+                    text: `You have successfully deleted ${userName} from Super Nigeria platform`,
+                    type: 'success',
+                }).then(() => {
+                    window.location = '/admin/dashboard/users';
+                });
+            })
         }
     });
 }

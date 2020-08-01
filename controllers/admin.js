@@ -115,7 +115,7 @@ module.exports = {
     }
   },
 
-  deleteUser: async (req, res) => {
+  deleteUser: async (req, res, next) => {
     const {
       userId
     } = req.params;

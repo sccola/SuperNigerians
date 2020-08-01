@@ -46,9 +46,8 @@ module.exports = {
             const user = req.session.user
             const post = await postExist(postId);
             if(!post) {
-                return res.status(400).json({
-                    message: "Post not found"
-                });
+                req.flash('error', 'Post not found');
+                res.redirect('back');
             }
             let comment;
             if(!user) {

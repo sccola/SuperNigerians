@@ -18,7 +18,7 @@ const commentExist = async (commentId) => {
     return comment;
 }
 
-const createComment = async (userId, body, name) => {
+const createCommentReplies = async (userId, body, name) => {
     const comment = await CommentReplies.create({
         comment: body,
         creator: userId,
@@ -27,7 +27,7 @@ const createComment = async (userId, body, name) => {
     return comment;
 }
 
-const createcommentReplies = async (userId, body, name) => {
+const createComment = async (userId, body, name) => {
     const comment = await Comment.create({
         comment: body,
         dislike: 0,

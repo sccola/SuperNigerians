@@ -4,6 +4,8 @@
 <head>
 	<%- include('../templates/head') %>
 	<link rel="stylesheet" type="text/css" href="css/post.css" />
+	
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"/>
 	<title>Post</title>
 </head>
 
@@ -43,23 +45,29 @@
 						<input class="btn btn-dark dislike-button my-3 mx-3" type="button" name="btnDislike" value="Dislike">
 					</form>
 					<!-- comment session -->
-
+					
 					<div class="row " style="width: 100%;">
 						<div class="col-md-12">
 							<h5>Comments</h5>
 						<% post[0].comments.forEach((comment) => { %>
 							<hr>
 							<span class="float-right"><%=  moment(comment.createdAt).startOf('minutes').fromNow() %></span>
+							<br>
+							<% if(currentUser) { %>
+								<% if(currentUser.role ==='admin') {%>
+								<a href="/admin/comment/<%= comment._id %>/delete" class="float-right btn btn-danger" style="margin-top: 20px">Delete Comment</a>
+								<% } %>
+							<% } %>
 							<div>
 					
 								<div class="">
-									<p class="align-left"><%= comment.comment %></>
+									<p class="align-left"><%= comment.comment %></p>
 									<h6><%= comment.name %></h6>
 									
 								</div>
 							</div>
 							<form action="">
-								<input type="text">
+								
 							</form>
 						<% }) %>
 							
@@ -82,7 +90,14 @@
 			<% } %>
 		</section>
 	</main>
-
+	<script src="/js/jquery.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+	<script>
+		<% if (success && success.length > 0) { %>
+		  console.log('<%= success %>')
+		  toastr.success('<%= success %>'); 
+		<% } %>
+	</script>
 </body>
 
 </html>

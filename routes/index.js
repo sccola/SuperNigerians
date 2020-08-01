@@ -16,7 +16,7 @@ router.use('/post', post);
 router.use('/admin', adminRoutes);
 router.get('/', home);
 router.use('/post', comment);
-router.use('/profile', userDashboard)
+router.use('/profile', userDashboard);
 router.use('/terms', terms);
 
 module.exports = router;

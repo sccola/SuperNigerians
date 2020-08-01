@@ -111,13 +111,31 @@ module.exports = {
         renderPage(res, "pages/searchedPosts", data, "Searched Posts Results", '/posts/search');
     },
 
-   /*  postLike: async (req, res) => {
-
+    postLike: (req, res) => {
+        let slug = req.params.slug;
+        console.log(slug)
+        Post.find({
+            slug
+        }).then((posts) => {
+            if (posts.like.indexOf(req.session.user._id) === -1) {
+                Post.findOneAndUpdate(slug, {
+                    $set: {
+                        like: req.session.user._id
+                    }
+                })
+            }else{
+                Post.findOneAndDelete(slug, {
+                    $set: {
+                        like: req.session.user._id
+                    }
+                }) 
+            }
+        })
     },
 
     postdisLike: async (req, res) => {
 
-    } */
+    }
 }
 
 /**

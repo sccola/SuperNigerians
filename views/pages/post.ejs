@@ -4,7 +4,10 @@
 <head>
 	<%- include('../templates/head') %>
 	<link rel="stylesheet" type="text/css" href="css/post.css" />
+	
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"/>
 	<title>Post</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 
 <body>
@@ -28,36 +31,47 @@
 					<div class="col-12 mt-4 mb-4 py-0 py-md-4">
 						<div class="d-flex">
 							<div class="pr-3 pr-md-5">
-								<img src=<%- user[0].photo %> class="rounded-circle" alt="Image" height="80px">
+								<img src=<%- post[0].creator.photo %> class="rounded-circle" alt="Image" height="80px">
 							</div>
 							<div class="text-dark pt-2 text-left">
 								<span class="text-secondary">Written by</span>
-								<h6 class="text-black pt-2"><a href="#"><%- user[0].firstname + " " + user[0].lastname %>
+								<h6 class="text-black pt-2"><a href="#"><%- post[0].creator.firstname + " " + post[0].creator.lastname %>
 									</a><span><%- post[0].date.toGMTString() %></span>
 								</h6>
 							</div>
 						</div>
 					</div>
 					<form name="ratings">
-						<input class="btn btn-dark like-button my-3 mr-3" type="button" name="btnLike" value="Like">
-						<input class="btn btn-dark dislike-button my-3 mx-3" type="button" name="btnDislike" value="Dislike">
+						<i onclick="" id="user-like" class="fa fa-thumbs-o-up like-button name="Like"><text id="like" style="margin-left: 4px;"">like</text></i>
+							
+						<i onclick="" id="user-unlike" class="fa fa-thumbs-o-down dislike-button" name="btnDislike"><text id="unlike" style="margin-left: 4px;">Unlike</text></i>
 					</form>
 					<!-- comment session -->
-
+					
 					<div class="row " style="width: 100%;">
 						<div class="col-md-12">
 							<h5>Comments</h5>
 						<% post[0].comments.forEach((comment) => { %>
 							<hr>
-							<span class="float-right"><%=  moment(comment.createdAt).startOf('hour').fromNow() %></span>
+							<span class="float-right"><%=  moment(comment.createdAt).startOf('minutes').fromNow() %></span>
+							<br>
+							<% if(currentUser) { %>
+								<% if(currentUser.role ==='admin') {%>
+								<a href="/admin/comment/<%= post[0]._id %>/<%= comment._id %>/delete" class="float-right btn btn-danger" style="margin-top: 20px">Delete Comment</a>
+								<% } %>
+							<% } %>
 							<div>
 					
 								<div class="">
-									<p class="align-left"><%= comment.comment %></>
+									<p class="align-left"><%= comment.comment %></p>
 									<h6><%= comment.name %></h6>
 									
 								</div>
 							</div>
+							<!-- <form action="" id= 'replies'>
+								<input type="text" class="form-control">
+								<input type="submit" class="btn btn-success float-right">
+							</form> -->
 						<% }) %>
 							
 						</div>
@@ -67,10 +81,10 @@
 						<form action="/post/<%- post[0]._id %>/comment" method="POST" class="text-left px-0 px-md-3">
 							<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 							<div>
-								<textarea class="form-control col-12" name="body" placeholder="Your comment here"></textarea>
+								<textarea class="form-control col-12" name="body" placeholder="Your comment here" required></textarea>
 							</div>
 							<button type="submit" class="btn btn-dark px-4 px-md-5 mt-3 mt-md-4">
-								Submit
+								Comment
 							</button>
 						</form>
 					</div>
@@ -79,7 +93,25 @@
 			<% } %>
 		</section>
 	</main>
+	<script src="/js/jquery.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+	<script>
+		<% if (success && success.length > 0) { %>
+		  console.log('<%= success %>')
+		  toastr.success('<%= success %>'); 
+		<% } %>
+	</script>
 
+<script>
+const like = document.getElementById('user-like');
+const unlike = document.getElementById('user-unlike');
+like.addEventListener('click',() =>{
+	document.getElementById('like').innerHTML='liked';
+})
+unlike.addEventListener('click', () => {
+	document.getElementById('unlike').innerHTML = 'Unliked';
+})
+</script>
 </body>
 
 </html>

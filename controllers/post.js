@@ -69,8 +69,10 @@ module.exports = {
     },
     postView: async (req, res) => {
 
-        const posts = await Post.find({}).sort({date:'desc'});
-
+        const posts = await Post.find({}).sort({
+            date: 'desc'
+        });
+        
         const data = {
             posts,
             path: 'post'
@@ -82,16 +84,10 @@ module.exports = {
         let slug = req.params.slug;
         const post = await Post.find({
             slug
-        }).populate('comments');
-
-        
-        const user = await User.find({
-            _id: post[0]['creator']
-        })
-
+        }).populate('comments').populate('creator')
         const data = {
             post,
-            user,
+            success: req.flash('success'),
             path: 'post'
         };
         renderPage(res, 'pages/post', data, 'Post', '/post');
@@ -114,7 +110,15 @@ module.exports = {
             path: 'post'
         }
         renderPage(res, "pages/searchedPosts", data, "Searched Posts Results", '/posts/search');
-    }
+    },
+
+   /*  postLike: async (req, res) => {
+
+    },
+
+    postdisLike: async (req, res) => {
+
+    } */
 }
 
 /**

@@ -1,5 +1,5 @@
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   /* max-width: 1440px; */
   background-color: #fafafa;
 }
@@ -73,7 +73,6 @@ button.btn.prj-btn-primary:focus {
   background-color: #00643c;
   box-shadow: none;
 }
-
 
 .profile-img {
   max-height: 200px;

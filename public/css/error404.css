@@ -1,0 +1,47 @@
+* {
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+  }
+
+   h1 {
+    font-family: 'Montserrat', sans-serif;
+    color: #262626;
+  }
+
+  h1>span {
+    text-shadow: -8px 0px 0px #fff;
+  }
+
+   .error404 {
+    font-family: 'Montserrat', sans-serif;
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    font-size: 252px;
+    font-weight: 700;
+    color: #262626;
+    text-transform: uppercase;
+    letter-spacing: -40px;
+    height: 150px;
+  }
+  
+   h3 {
+    font-family: 'Cabin', sans-serif;
+    color: #262626;
+  }
+  
+
+  @media only screen and (max-width: 767px) {
+     .error404 {
+      height: 100px;
+      font-size: 200px;
+  }
+  
+  @media only screen and (max-width: 480px) {
+    .error404 {
+      font-size: 162px;
+      height: 150px;
+      line-height: 162px;
+      height: 70px;
+    }
+  }

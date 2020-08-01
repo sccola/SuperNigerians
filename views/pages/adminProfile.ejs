@@ -43,6 +43,7 @@
 
 <body id="page-top">
 
+
   <!-- Page Wrapper -->
   <div id="wrapper">
 
@@ -117,16 +118,16 @@
                   <div class="form-group">
                     <label for="lastName">Last name</label>
                     <input type="text" class="form-control" id="lastName" name="lastname" placeholder="Doe"
-                      autocomplete="family-name" value="<%=user.lastname %>" autocapitalize="on" minlength="2">
+                      autocomplete="family-name" value="<%= user.lastname %>" autocapitalize="on" minlength="2">
                   </div>
                   <div class="form-group">
                     <label for="userName">Username</label>
-                    <input type="text" class="form-control" value="<%=user.username %>" id="userName" name="username"
+                    <input type="text" class="form-control" value="<%= user.username %>" id="userName" name="username"
                       placeholder="johnDoe" autocomplete="username">
                   </div>
                   <div class="form-group">
                     <label for="phone">Phone</label>
-                    <input type="tel" class="form-control" value="<%=user.phone %>" id="phone" name="phone"
+                    <input type="tel" class="form-control" value="<%= user.phone %>" id="phone" name="phone"
                       autocomplete="url">
                   </div>
                   <div class="form-group">
@@ -150,7 +151,6 @@
       </div>
     </div>
 
-
     <!-- Content Wrapper -->
     <div class="container-fluid main-container pt-5">
       <div class="row">
@@ -158,7 +158,7 @@
           <div class="profile-container my-3 d-flex flex-column justify-content-center align-items-center flex-sm-row">
             <img src="<%= user.photo %>  alt=" my avatar" class="profile-img img-fluid rounded-circle mr-sm-4">
             <div class="d-flex flex-column justify-content-center align-items-center ml-sm-4 mt-3 mt-sm-0">
-              <h1> clss="h3"><%= user.username || user.firstname %> </h1>
+              <h1> <%= user.username %> </h1>
               <p class="mb-0 lead prj-text-normal ">
                 <span class="font-weight-normal d-inline-block ">
                   <%= userPosts.length %>

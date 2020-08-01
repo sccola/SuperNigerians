@@ -5,8 +5,6 @@
   <link rel="stylesheet" href="/css/userDashboard.css" />
   <%- include('../templates/head') %>
 
-  <title>User dashboard</title>
-
   <style>
     .was-validated .form-control:invalid {
       border: 1px solid #dc3545 !important;
@@ -201,7 +199,7 @@
       <div class="row">
         <div class="col-12">
           <div class="profile-container my-3 d-flex flex-column justify-content-center align-items-center flex-sm-row">
-            <img src="<%= user.photo %>" alt="my avatar" class="profile-img img-fluid rounded-circle mr-sm-4">
+            <img src="<%= user.photo %>" alt="user profile photo" class="profile-img img-fluid rounded-circle mr-sm-4">
             <div class="d-flex flex-column justify-content-center align-items-center ml-sm-4 mt-3 mt-sm-0">
               <h1 clss="h3"><%= user.firstname %></h1>
               <p class="mb-0 lead prj-text-normal">
@@ -233,7 +231,7 @@
                 <div class="my-posts-container row row-cols-1 row-cols-sm-2 row-cols-lg-3">
                   <% if (userPosts.length === 0) { %>
                   <div class="my-post col px-1 py-3 mx-auto my-2">
-                    <img class="img-fluid" src="/images/no-posts.svg" alt="No posts">
+                    <img class="img-fluid" src="/images/no-posts.svg" alt="No posts image">
                     <p class="small text-center">You have not created a post yet</p>
                     <p class="small text-center">Click on the 'Create a post' tab to create a post</p>
                   </div>
@@ -242,7 +240,7 @@
                   <div class="my-post col px-1 py-3 position-relative my-2">
                     <div
                       class="default-post-content py-2 d-flex flex-column align-items-center justify-content-space-around">
-                      <img src="<%= post.postPicture %>  class=" img-fluid" alt="post header image" />
+                      <img src="<%= post.postPicture %>  class=" img-fluid" alt="post image" />
                       <p class="my-4 lead font-weight-normal text-center">
                         <%= post.title %>
                       </p>
@@ -286,7 +284,7 @@
                     </div>
 
                     <div class="d-flex justify-content-center justify-content-md-start">
-                      <button id="postFormBtn" type="submit" class="btn btn-secondary">Post</button>
+                      <button id="postFormBtn" type="submit" class="btn btn-secondary post-btn">Post</button>
                     </div>
                   </form>
                   <input type="hidden" name="_csrf" value="<%= csrfToken %>" />

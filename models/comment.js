@@ -13,6 +13,10 @@ const commentSchema = new Schema(
         dislike: {
             type: Number,
         },
+        commentReplies: [{
+            type: Schema.Types.ObjectId,
+            ref: 'CommentReplies'
+        }],
         creator: {
             type: Schema.Types.ObjectId,
             ref: 'Users',

@@ -27,7 +27,11 @@ const profile = (req, res) => {
 };
 
 const terms = (req, res) => {
-  return renderPage(res, 'pages/terms-conditions', {} , 'Terms and Condition', '/terms');
+  return renderPage(res, 'pages/termsConditions', {} , 'Terms and Condition', '/terms');
+}
+
+const contactUs = (req, res) => {
+  return renderPage(res, 'pages/contactUs', {} , 'Contact Us', '/contactUs');
 }
 
 
@@ -35,5 +39,6 @@ const terms = (req, res) => {
 module.exports = {
   home,
   profile,
-  terms
+  terms,
+  contactUs
 };

@@ -42,6 +42,10 @@ const userfSchema = new Schema({
     type: String,
     default: '0-000000000'
   },
+  active: {
+    type: String,
+    default: 'true'
+  },
   resetToken: String,
   resetTokenExpiration: Date,
   posts: [{

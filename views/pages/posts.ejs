@@ -5,7 +5,6 @@
   <%- include('../templates/head') %>
   <link rel="stylesheet" href="/css/posts.css" />
   <link rel="stylesheet" href="/css/animate.css" />
-  <title>Posts | Super Nigerians</title>
 </head>
 
 <body>
@@ -20,9 +19,11 @@
 
         <% for(var i=0; i < posts.length; i++) { %>
 
+          <% if( posts[i].status === 'true'){ %>
+
         <div class="d-flex flex-column flex-md-row mb-5">
           <div class="col-12 col-md-3 d-md-flex justify-content-center align-items-center profile-picture mb-2 mb-md-0">
-            <img src=<%- posts[i].postPicture %> alt="user-profile-picture" class="img-fluid" />
+            <img src=<%- posts[i].postPicture %> alt="user profile picture" class="img-fluid" />
           </div>
 
           <div class="col-12 col-md-9 article-details d-flex flex-column justify-content-center">
@@ -33,24 +34,23 @@
             </div>
 
             <div class="meta d-flex justify-content-center justify-content-md-start">
-              <span class="calender mr-3"><i class="fa fa-calendar mr-2"></i><%- posts[i].date.toGMTString() %></span>
+              <span class="calender mr-3"><i class="fa fa-calendar mr-2"></i><span
+                  class="visually-hidden">Date</span><%- posts[i].date.toGMTString() %></span>
               <span class="comment"><i
                   class="fa fa-comment mr-2"></i><%- posts[i].comments.length + " comments" %></span>
             </div>
 
             <p class="article-highlight text-center text-md-left"><%- posts[i].body.slice(0,120) + "..." %></p>
-            
+
             <div class="d-flex justify-content-center justify-content-md-start">
               <a href=<%- "/" + posts[i].slug %> class="read-more">Read More <span class="fa fa-angle-right"></span></a>
             </div>
           </div>
         </div>
 
-        <% } %>
+        <% }}} %>
 
       </div>
-
-      <% } %>
 
     </div>
   </main>

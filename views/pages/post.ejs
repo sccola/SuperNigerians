@@ -19,8 +19,8 @@
 		<section class="px-2 px-md-0">
 			<% if( post &&  post.length > 0){ %>
 			<div class="container mt-2 mt-md-3">
-				<div class="">
-					<img src="<%- post[0].postPicture %>" alt="single post picture" style='align-items: center;'
+				<div class="d-flex justify-content-center">
+					<img src="<%- post[0].postPicture %>" alt="single post picture"
 						class="img-fluid" id="singlePostPix">
 				</div>
 				<div class="row" style="margin: 0;">
@@ -115,13 +115,9 @@
 	<script src="/js/jquery.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 	<script>
-		< %
-		if (success && success.length > 0) {
-			% >
-			console.log('<%= success %>')
-			toastr.success('<%= success %>'); <
-			%
-		} % >
+		<% if (success && success.length > 0) { %>
+			toastr.success('<%= success %>'); 
+		<% } %>
 	</script>
 </body>
 

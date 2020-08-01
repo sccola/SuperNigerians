@@ -5,6 +5,7 @@ const {
   renderPage
 } = require("../utils/render-page");
 const sendMail = require("../utils/send-email");
+const { use } = require("marked");
 
 
 const getAllPosts = async () => {
@@ -249,9 +250,18 @@ module.exports = {
 
   deleteComment: async (req, res, next) => {
     try {
-      const { commentId } = req.params;
+      const { commentId, postId } = req.params;
+      
+      const userPost = await Post.findById({ _id: postId });
+     
+      const postComment = await userPost.comments.filter((comment) => {
+        return String(comment) !== String(commentId);
+      });
 
-      Comment.findByIdAndDelete(commentId ,(err) => {
+      userPost.comments = postComment;
+      await userPost.save();
+      
+      Comment.findByIdAndRemove(commentId ,(err) => {
         if(err) req.flash("error", "An error occured while deleting comment");
         req.flash('success', "Comment deleted sucessfully");
         res.redirect('back');  

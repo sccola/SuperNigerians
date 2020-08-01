@@ -10,7 +10,6 @@ const getAllPosts = async () => {
   const allPosts = await Post.find().sort({
     date: 'desc'
   });
-  console.log(allPosts);
   return allPosts;
 };
 

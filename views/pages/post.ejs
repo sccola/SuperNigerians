@@ -49,7 +49,7 @@
 							<h5>Comments</h5>
 						<% post[0].comments.forEach((comment) => { %>
 							<hr>
-							<span class="float-right"><%=  moment(comment.createdAt).startOf('hour').fromNow() %></span>
+							<span class="float-right"><%=  moment(comment.createdAt).startOf('minutes').fromNow() %></span>
 							<div>
 					
 								<div class="">

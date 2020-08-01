@@ -38,7 +38,7 @@ const createComment = async (userId, body, name) => {
     return comment;
 }
 module.exports = {
-    addComment: async (req, res) => {
+    addComment: async (req, res, next) => {
         try{
           //find campground
             const { postId } = req.params;
@@ -59,11 +59,12 @@ module.exports = {
             }
             post.comments.push(comment);
             await post.save();
-            
+            req.flash('success', 'Comment Made Successfully')
             res.redirect('back');
         } catch (err) {
-            console.log(err);
-            res.status(500).json({err})
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
         }
     },
 
@@ -110,9 +111,9 @@ module.exports = {
             let commentReplies;
             if(!user) {
                 const anonymous = await anonymousUser();
-                commentReplies = await createcommentReplies(anonymous[0]._id, body, anonymous[0].firstname);
+                commentReplies = await createCommentReplies(anonymous[0]._id, body, anonymous[0].firstname);
             } else {
-                commentReplies = await createcommentReplies(user._id, body, `${user.firstname} ${user.lastname}`);
+                commentReplies = await createCommentReplies(user._id, body, `${user.firstname} ${user.lastname}`);
             }
             comment.commentReplies.push(comment);
             await comment.save();

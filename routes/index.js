@@ -6,7 +6,7 @@ const userDashboard = require('./userDashboard');
 const comment = require('./comment');
 
 const {
-  home, terms
+  home, terms, contactUs
 } = require('../controllers/index');
 
 
@@ -18,5 +18,6 @@ router.get('/', home);
 router.use('/post', comment);
 router.use('/profile', userDashboard)
 router.use('/terms', terms);
+router.use('/contactUs', contactUs);
 
 module.exports = router;

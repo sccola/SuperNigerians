@@ -107,13 +107,17 @@ const postUserRegister = async (req, res) => {
 const postUserLogin = async (req, res, next) => {
   const { email, password } = req.body;
   validateUserRequest(req, res, email, password);
-
+  
   await userCheck(email)
     .then(async (user) => {
       console.log(user);
       if (!user) {
         return errorUserLogin(req, res, email, password, 'Invalid email or password.',);
-      }
+      };
+      if(user.active === 'false'){
+        return errorUserLogin(req, res, email, password, 'Account suspended, contact Admin',);
+      };
+
       bcrypt.compare(password, user.password)
         .then((valid) => {
           if (valid) {

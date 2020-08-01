@@ -9,7 +9,8 @@ const {
     postView,
     postSingleView,
     postSearchByTitle,
-    postLike
+    postLike,
+    postdisLike
 } = require('../controllers/post');
 
 
@@ -18,5 +19,6 @@ router.get('/:slug', postSingleView)
 router.post('/new', userPost);
 router.get('/posts/search/:title', postSearchByTitle);
 router.patch('/post/:slug/like', postLike)
+router.patch('/post/:slug/dislike', postdisLike)
 
 module.exports = router;

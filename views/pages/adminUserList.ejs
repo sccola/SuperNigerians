@@ -146,8 +146,8 @@
                                             <td><%= u.email %></td>
                                             <td><%= u.phone %></td>
                                             <td>
-                                                <a onclick='Delete("<%= u._id %>", "<%= u.firstname %> <%= u.lastname %>", "<%= csrfToken %>")'
-                                                    href="#" class="btn btn-danger">Delete</a>
+                                                <a onclick='toSuspend("<%= u._id %>", "<%= u.firstname %> <%= u.lastname %>", "<%= csrfToken %>")'
+                                                    href="#" class="btn btn-danger">Suspend</a>
                                             </td>
                                         </tr>
                                         <% } %>

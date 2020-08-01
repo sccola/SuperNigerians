@@ -114,27 +114,85 @@ module.exports = {
     postLike: (req, res) => {
         let slug = req.params.slug;
         console.log(slug)
+        const update = {
+            like: req.session.user._id
+        }
         Post.find({
             slug
         }).then((posts) => {
-            if (posts.like.indexOf(req.session.user._id) === -1) {
+            console.log(posts)
+            console.log(req.session.user._id)
+            if (posts[0].like.indexOf(req.session.user._id) === -1) {
+                console.log("yes")
                 Post.findOneAndUpdate(slug, {
-                    $set: {
-                        like: req.session.user._id
-                    }
+                    $push: update
+                }, {
+                    new: true
+                }).then((result) => {
+                    return res.status(200).send({
+                        result,
+                        status:true
+                    });
                 })
-            }else{
-                Post.findOneAndDelete(slug, {
-                    $set: {
-                        like: req.session.user._id
+            } else {
+                console.log("no")
+                Post.findOneAndUpdate({
+                    slug,
+                }, {
+                    $pull: {
+                        like: {
+                            $in: [req.session.user._id]
+                        }
                     }
-                }) 
+                }).then((result) => {
+                    return res.status(200).send({
+                        result,
+                        status:false
+                    });
+                })
             }
         })
     },
 
     postdisLike: async (req, res) => {
-
+        let slug = req.params.slug;
+        
+        const update = {
+            dislike: req.session.user._id
+        }
+        Post.find({
+            slug
+        }).then((posts) => {
+            if (posts[0].dislike.indexOf(req.session.user._id) === -1) {
+                
+                Post.findOneAndUpdate(slug, {
+                    $push: update
+                }, {
+                    new: true
+                }).then((result) => {
+                    return res.status(200).send({
+                        result,
+                        status:true
+                    });
+                })
+            } else {
+                
+                Post.findOneAndUpdate({
+                    slug,
+                }, {
+                    $pull: {
+                        dislike: {
+                            $in: [req.session.user._id]
+                        }
+                    }
+                }).then((result) => {
+                    return res.status(200).send({
+                        result,
+                        status:false
+                    });
+                })
+            }
+        })
     }
 }
 

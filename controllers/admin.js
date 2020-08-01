@@ -52,6 +52,7 @@ module.exports = {
     const unverifiedPosts = await getUnverifiedPosts();
     const allAdmins = await filterData(totalUsers, 'admin')
 
+    console.log(unverifiedPosts);
     const data = {
       allPosts,
       totalUnverifiedPosts,
@@ -140,13 +141,13 @@ module.exports = {
     }
   },
 
-  deleteUser: async (req, res, next) => {
+  suspendUser: async (req, res, next) => {
     const {
       userId
     } = req.params;
     try {
-      const users = await User.findOneAndDelete({
-        _id: userId
+      const users = await User.findByIdAndUpdate(userId,{
+         active: 'false'
       });
       if (!users) return req.flash("error", "No User found !");
 

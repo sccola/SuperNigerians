@@ -104,13 +104,14 @@
                                                 <td><%= u.phone %></td>
                                                 <% if (u.active === "true" ) { %>
                                                 <td>
-                                                    <a onclick='toSuspend("<%= u._id %>", "<%= u.firstname %> <%= u.lastname %>", "<%= csrfToken %>")'
-                                                        href="#" class="btn btn-danger">Suspend</a>
+                                                    <a onclick='toBlock("<%= u._id %>", "<%= u.firstname %> <%= u.lastname %>", "<%= csrfToken %>")'
+                                                        href="#" class="btn btn-danger">Block User</a>
                                                 </td>
                                                 <% } %>
                                                 <% if (u.active === "false" ) { %>
                                                 <td>
-                                                    <a href="#" class="btn btn-success">Suspended</a>
+                                                    <a onclick='toUnBlock("<%= u._id %>", "<%= u.firstname %> <%= u.lastname %>", "<%= csrfToken %>")'
+                                                        href="#" class="btn btn-success">Unblock User</a>
                                                 </td>
                                                 <% } %>
                                             </tr>

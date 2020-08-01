@@ -114,15 +114,14 @@ module.exports = {
 
     postLike: (req, res) => {
         let slug = req.params.slug;
-        console.log(slug)
+
         const update = {
             like: req.session.user._id
         }
         Post.find({
             slug
         }).then((posts) => {
-            console.log(posts)
-            console.log(req.session.user._id)
+
             if (posts[0].like.indexOf(req.session.user._id) === -1) {
                 console.log("yes")
                 Post.findOneAndUpdate(slug, {

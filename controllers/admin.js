@@ -5,7 +5,6 @@ const {
   renderPage
 } = require("../utils/render-page");
 const sendMail = require("../utils/send-email");
-const { use } = require("marked");
 
 
 const getAllPosts = async () => {
@@ -171,7 +170,7 @@ module.exports = {
 
   },
 
-  approvePost: async (req, res) => {
+  approvePost: async (req, res, next) => {
     try {
       const {
         postId
@@ -208,7 +207,7 @@ module.exports = {
     }
   },
 
-  disApprovePost: async (req, res) => {
+  disApprovePost: async (req, res, next) => {
     try {
       const {
         postId
@@ -235,21 +234,18 @@ module.exports = {
     }
   },
 
-  verified: async (req, res) => {
+  verified: async (req, res, next) => {
     try {
-      const verifidPosts = await Post.find({
+      const verifiedPosts = await Post.find({
         status: 'true'
       }).populate('creator').sort({
         date: 'desc'
       });
-      const unverifiedPosts = await Post.find({
-        status: 'false'
-      })
+
       const data = {
-        verifidPosts,
-        unverifiedPosts,
+        verifiedPosts,
       }
-      return renderPage(res, 'pages/adminDashboard', data, 'Admin | Dashboard', '/admin/dashboard/posts/verified');
+      return renderPage(res, 'pages/adminPosts', data, 'Admin | Posts', '/admin/dashboard/posts/verified');
     } catch (err) {
       const error = new Error(err);
       error.httpStatusCode = 500;

@@ -11,16 +11,13 @@
   <%- include('../templates/sidebar') %>
 
   <main id="main">
-    <div id="posts" class="container animate__animated animate__slideInLeft">
+    <div id="posts" class="container d-flex flex-column animate__animated animate__slideInLeft">
 
-      <% if( posts &&  posts.length > 0){ %>
+      <% if( posts &&  posts.length > 0 ) { %>
+      <% for(var i=0; i < posts.length; i++) { %>
+      <% if( posts[i].status === 'true') { %>
 
-      <div class="row d-flex flex-column">
-
-        <% for(var i=0; i < posts.length; i++) { %>
-
-        <% if( posts[i].status === 'true'){ %>
-
+      <div class="row">
         <div class="card py-2 mb-3 d-flex justify-content-center align-items-center">
           <div class="d-flex flex-column flex-md-row">
             <div
@@ -51,10 +48,8 @@
             </div>
           </div>
         </div>
-
-        <% }}} %>
-
       </div>
+      <% }}} %>
 
     </div>
   </main>

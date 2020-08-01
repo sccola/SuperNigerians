@@ -5,6 +5,7 @@ const {
   renderPage
 } = require("../utils/render-page");
 const sendMail = require("../utils/send-email");
+const { use } = require("marked");
 
 
 const getAllPosts = async () => {
@@ -52,7 +53,7 @@ module.exports = {
     const unverifiedPosts = await getUnverifiedPosts();
     const allAdmins = await filterData(totalUsers, 'admin')
 
-    console.log(unverifiedPosts);
+    // console.log(unverifiedPosts);
     const data = {
       allPosts,
       totalUnverifiedPosts,
@@ -241,6 +242,31 @@ module.exports = {
       }
       return renderPage(res, 'pages/adminDashboard', data, 'Admin | Dashboard', '/admin/dashboard/posts/verified');
     } catch (err) {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    }
+  },
+
+  deleteComment: async (req, res, next) => {
+    try {
+      const { commentId, postId } = req.params;
+      
+      const userPost = await Post.findById({ _id: postId });
+     
+      const postComment = await userPost.comments.filter((comment) => {
+        return String(comment) !== String(commentId);
+      });
+
+      userPost.comments = postComment;
+      await userPost.save();
+      
+      Comment.findByIdAndRemove(commentId ,(err) => {
+        if(err) req.flash("error", "An error occured while deleting comment");
+        req.flash('success', "Comment deleted sucessfully");
+        res.redirect('back');  
+      });
+    } catch(err) {
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);

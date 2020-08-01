@@ -1,0 +1,49 @@
+main {
+    position: relative;
+    background-image: url(../images/reportAbuse.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+    height: 100vh;
+  }
+  
+  .overlay {
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.356);
+  }
+  
+  .formContainer {
+    padding: 15px 15px;
+    background: rgba(0, 0, 0, 0.315);
+    color: #fff;
+  }
+  
+  .custom-btn {
+    color: #ffffff !important;
+    background: #00643c !important;
+    padding: 10px 40px;
+    transition: all 0.15s ease-in-out;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+  }
+  
+  .form-control {
+    transition: all 0.15s ease-in-out;
+  }
+  
+  .form-control:active,
+  .form-control:focus {
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+  }
+  
+  .custom-btn:hover,
+  .custom-btn:active,
+  .custom-btn:focus {
+    color: #00643c !important;
+    background: #ffffff !important;
+  }

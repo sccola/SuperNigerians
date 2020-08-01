@@ -12,6 +12,7 @@ function toSuspend(userId, userName, csrf) {
                 method: 'PATCH',
                 headers: {
                     'X-CSRF-TOKEN': csrf,
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
                 },
             });
             swal({
@@ -21,6 +22,7 @@ function toSuspend(userId, userName, csrf) {
             }).then(() => {
                 window.location = '/admin/dashboard/users';
             });
+
         }
     });
 }

@@ -72,7 +72,7 @@ module.exports = {
         const posts = await Post.find({}).sort({
             date: 'desc'
         });
-
+        
         const data = {
             posts,
             path: 'post'
@@ -87,6 +87,7 @@ module.exports = {
         }).populate('comments').populate('creator')
         const data = {
             post,
+            success: req.flash('success'),
             path: 'post'
         };
         renderPage(res, 'pages/post', data, 'Post', '/post');
@@ -222,10 +223,10 @@ const uploadPhoto = async (req, res, mediaType, sImage, size) => {
         })
     }
     try {
-        const employerLogoUpload = await cloud.uploader.upload(imageFile.tempFilePath);
+        const userLogoUpload = await cloud.uploader.upload(imageFile.tempFilePath);
         const {
             url
-        } = employerLogoUpload;
+        } = userLogoUpload;
         // console.log(url)
         return url;
 

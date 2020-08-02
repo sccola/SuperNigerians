@@ -130,50 +130,7 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primar sidebar sidebar-dark accordion" id="accordionSidebar">
-
-      <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">Admin</div>
-      </a>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider my-0">
-
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
-        <a class="nav-link" href="/admin/dashboard">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-      <!-- Nav Item - Users -->
-      <li class="nav-item active">
-        <a class="nav-link" href="/admin/dashboard/users">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Users</span></a>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-      <!-- Nav Item - Users -->
-      <li class="nav-item active">
-        <a class="nav-link" href="/admin/dashboard/profile">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Admin Profile</span></a>
-      </li>
-
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-        <button role="button" class="rounded-circle border-0" id="sidebarToggle"></button>
-      </div>
-
-    </ul>
+    <%- include('../templates/adminSidebar') %>
     <!-- End of Sidebar -->
 
     <!-- Update profile modal -->
@@ -321,13 +278,13 @@
                     <div class="form-group">
                       <label for="title">Title</label>
                       <input type="text" name="title" class="form-control" id="title"
-                        placeholder="Enter your post title" required="required" />
+                        placeholder="Enter your post title" required />
                     </div>
 
                     <div class="form-group">
                       <label for="subject">Subject</label>
                       <input type="text" name="title" class="form-control" id="subject"
-                        placeholder="Enter your post title" required="required" />
+                        placeholder="Enter your post title" required />
                     </div>
 
                     <div class="form-group mt-3">
@@ -338,7 +295,7 @@
 
                     <div class="form-group">
                       <label for="postContent">Content</label>
-                      <textarea class="form-control" id="postContent"></textarea>
+                      <textarea class="form-control" id="postContent" placeholder="Add text here" required></textarea>
                     </div>
 
                     <div class="d-flex justify-content-center justify-content-md-start">
@@ -393,20 +350,21 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="/js/toast.js"></script>
 
-  <script src="https://cdn.tiny.cloud/1/zmeht2ue8lcu1icuo458dfkh7rkyf6fuwgfr6je2hq2nuimv/tinymce/5/tinymce.min.js"
+  <!-- <script src="https://cdn.tiny.cloud/1/zmeht2ue8lcu1icuo458dfkh7rkyf6fuwgfr6je2hq2nuimv/tinymce/5/tinymce.min.js"
     referrerpolicy="origin"></script>
   <script>
     tinymce.init({
       selector: 'textarea'
     });
-  </script>
+  </script> -->
 
   <script>
     document.getElementById('postFormBtn').addEventListener('click', async function (event) {
 
       const form = document.getElementById('postFormId');
       const [title, subject, fileData] = form.querySelectorAll('input');
-      const textarea = tinyMCE.get('postContent').getContent();
+      const textarea = document.getElementById('postContent').value;
+      // const textarea = tinyMCE.get('postContent').getContent();
 
       let addValidation = true;
 

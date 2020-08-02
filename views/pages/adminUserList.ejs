@@ -45,50 +45,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primar sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">Admin</div>
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="/admin/dashboard">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-            <!-- Nav Item - Users -->
-            <li class="nav-item active">
-                <a class="nav-link" href="/admin/dashboard/users">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Users</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-            <!-- Nav Item - Users -->
-            <li class="nav-item active">
-                <a class="nav-link" href="/admin/dashboard/profile">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Admin Profile</span></a>
-            </li>
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button role="button" class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-        </ul>
+        <%- include('../templates/adminSidebar') %>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -130,7 +87,7 @@
                                                 <th scope="col">Last</th>
                                                 <th scope="col">Email</th>
                                                 <th scope="col">Phone Number</th>
-                                                <th scope="col">CTO</th>
+                                                <th scope="col">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -147,13 +104,14 @@
                                                 <td><%= u.phone %></td>
                                                 <% if (u.active === "true" ) { %>
                                                 <td>
-                                                    <a onclick='toSuspend("<%= u._id %>", "<%= u.firstname %> <%= u.lastname %>", "<%= csrfToken %>")'
-                                                        href="#" class="btn btn-danger">Suspend</a>
+                                                    <a onclick='toBlock("<%= u._id %>", "<%= u.firstname %> <%= u.lastname %>", "<%= csrfToken %>")'
+                                                        href="#" class="btn btn-danger">Block User</a>
                                                 </td>
                                                 <% } %>
                                                 <% if (u.active === "false" ) { %>
                                                 <td>
-                                                    <a href="#" class="btn btn-success">Suspended</a>
+                                                    <a onclick='toUnBlock("<%= u._id %>", "<%= u.firstname %> <%= u.lastname %>", "<%= csrfToken %>")'
+                                                        href="#" class="btn btn-success">Unblock User</a>
                                                 </td>
                                                 <% } %>
                                             </tr>

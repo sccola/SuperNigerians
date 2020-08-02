@@ -29,9 +29,9 @@
 
 <body id="page-top">
 
-  <!-- Page Wrapper -->
+ <!-- Page Wrapper -->
   <div id="wrapper">
-    
+
     <!-- Sidebar -->
     <%- include('../templates/adminSidebar') %>
     <!-- End of Sidebar -->
@@ -57,96 +57,9 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-          </div>
-
-          <!-- Content Row -->
-          <div class="row">
-
-            <!-- Total Users Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Users</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"><%= totalUsers.length %></div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fa fa-users fa-2x" aria-hidden="true"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Workspace Admins</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"><%= allAdmins.length%></div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fa fa-users fa-2x" aria-hidden="true"></i>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Total posts Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Posts</div>
-                      <div class="row no-gutters align-items-center">
-                        <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><%= allPosts.length %></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-comments fa-2x text-gray-300" aria-hidden="true"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Posts Pending Review</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"><%= totalUnverifiedPosts.length %></div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-comments fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-
-
-          </div>
-
-          <!-- Content Row -->
 
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Pending Posts</h1>
+            <h1 class="h3 mb-0 text-gray-800">Verified Posts</h1>
           </div>
           <div class="row">
             <div class="col-12">
@@ -165,14 +78,14 @@
                   </thead>
                   <tbody>
                     <% let id = 1 %>
-                    <% unverifiedPosts.forEach(function(posts) {%>
+                    <% verifiedPosts.forEach(function(posts) {%>
                     <tr>
                       <th scope="row"><%= id %></th>
                       <td><%= posts.creator.firstname %></td>
                       <td><%= posts.creator.lastname %></td>
                       <td><%= posts.body.slice(0,150) + "..." %> <a href="/post/<%= posts.slug %>">read more</a></td>
                       <td><%= moment(posts.createdAt).format("MMM Do YY, h:mm:ss a") %></td>
-                      <td>Pending</td>
+                      <td>Approved </td>
                       <td>
                         <div class="row d-flex flex-column">
                           <div class="col">
@@ -182,7 +95,6 @@
                                 <span title="Toggle dropdown menu"></span>
                               </a>
                               <ul class="dropdown-menu">
-                                <li><a onclick="toApprove('<%= posts._id%>', '<%= csrfToken%>')" href="#"><i class="fa fa-check" style= "color: green; padding: 10px;" aria-hidden="true"></i>Approve</a></li>
                                 <li><a onclick="toDelete('<%= posts._id%>', '<%= csrfToken%>')" href="#"><i class="fa fa-trash-o" style= "color: red ; padding: 10px;" aria-hidden="true"></i> Delete</a></li>
                                 <li class="divider"></li>
                               </ul>
@@ -271,7 +183,7 @@
   <script src="/js/sb-admin-2.min.js"></script>
 
   <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
-  <script src="/js/adminDashboard.js"></script>
+  <script src="/js/adminPosts.js"></script>
 </body>
 
 </html>

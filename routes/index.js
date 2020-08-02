@@ -14,7 +14,6 @@ router.get('/', home);
 router.use('/user', user);
 router.use('/post', post);
 router.use('/admin', adminRoutes);
-router.get('/', home);
 router.use('/post', comment);
 router.use('/', userDashboard)
 router.use('/terms', terms);

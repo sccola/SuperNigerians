@@ -5,7 +5,6 @@ const {
   renderPage
 } = require("../utils/render-page");
 const sendMail = require("../utils/send-email");
-const { use } = require("marked");
 
 
 const getAllPosts = async () => {
@@ -47,13 +46,12 @@ const filterData = async (data, key) => {
 module.exports = {
   dashboard: async (req, res) => {
     const allPosts = await getAllPosts();
-    const totalUsers = await User.find();
+    const totalUsers = await User.find()
     const totalUnverifiedPosts = await filterData(allPosts, 'false');
     const totalVerifiedPosts = await filterData(allPosts, 'true');
     const unverifiedPosts = await getUnverifiedPosts();
     const allAdmins = await filterData(totalUsers, 'admin')
 
-    // console.log(unverifiedPosts);
     const data = {
       allPosts,
       totalUnverifiedPosts,
@@ -112,6 +110,16 @@ module.exports = {
         req.flash("error", "Post does not exist");
       }
 
+      const userCreator = await User.findById({ _id:userPost.creator })
+
+      // filter out post from the user array
+      const postsArray = await userCreator.posts.filter((post) => {
+        return String(post) !== String(postId);
+      });
+
+      userCreator.posts = postsArray;
+      await userCreator.save();
+
       Post.findByIdAndDelete(postId,(err) => {
         if(err) req.flash("error", "An error occured while deleting post");
         req.flash("Post deleted sucessfully");  
@@ -142,7 +150,7 @@ module.exports = {
     }
   },
 
-  suspendUser: async (req, res, next) => {
+  blockUser: async (req, res, next) => {
     const {
       userId
     } = req.params;
@@ -159,10 +167,28 @@ module.exports = {
       return next(error);
     }
 
+  },
+  unblockUser: async (req, res, next) => {
+    const {
+      userId
+    } = req.params;
+    try {
+      const users = await User.findByIdAndUpdate(userId,{
+         active: 'true'
+      });
+      if (!users) return req.flash("error", "No User found !");
+
+      return res.redirect('back')
+    } catch (err) {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    }
+
 
   },
 
-  approvePost: async (req, res) => {
+  approvePost: async (req, res, next) => {
     try {
       const {
         postId
@@ -199,7 +225,7 @@ module.exports = {
     }
   },
 
-  disApprovePost: async (req, res) => {
+  disApprovePost: async (req, res, next) => {
     try {
       const {
         postId
@@ -226,21 +252,18 @@ module.exports = {
     }
   },
 
-  verified: async (req, res) => {
+  verified: async (req, res, next) => {
     try {
-      const verifidPosts = await Post.find({
+      const verifiedPosts = await Post.find({
         status: 'true'
       }).populate('creator').sort({
         date: 'desc'
       });
-      const unverifiedPosts = await Post.find({
-        status: 'false'
-      })
+
       const data = {
-        verifidPosts,
-        unverifiedPosts,
+        verifiedPosts,
       }
-      return renderPage(res, 'pages/adminDashboard', data, 'Admin | Dashboard', '/admin/dashboard/posts/verified');
+      return renderPage(res, 'pages/adminPosts', data, 'Admin | Posts', '/admin/dashboard/posts/verified');
     } catch (err) {
       const error = new Error(err);
       error.httpStatusCode = 500;

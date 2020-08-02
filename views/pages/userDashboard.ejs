@@ -236,21 +236,21 @@
                     <p class="small text-center">Click on the 'Create a post' tab to create a post</p>
                   </div>
                   <% } %>
-                  <% for( post in userPosts) { %>
+                  <% for(var i=0; i <userPosts.length; i++) { %>
                   <div class="my-post col px-1 py-3 position-relative my-2">
                     <div
                       class="default-post-content py-2 d-flex flex-column align-items-center justify-content-space-around">
-                      <img src="<%= post.postPicture %>  class=" img-fluid" alt="post image" />
+                      <img src=<%= userPosts[i].postPicture %>  class="img-fluid" alt="post image" />
                       <p class="my-4 lead font-weight-normal text-center">
-                        <%= post.title %>
+                        <%= userPosts[i].title %>
                       </p>
                     </div>
                     <div
                       class="hover-post-content px-4 position-absolute d-flex flex-column align-items-center justify-content-center">
                       <p class="text-center">
-                        <%= post.description %>
+                        <%= userPosts[i].description %>
                       </p>
-                      <a href="#" class="btn bg-white text-secondary">View post</a>
+                      <a href=<%- "/" + userPosts[i].slug %> class="btn bg-white text-secondary">View post</a>
                     </div>
                   </div>
                   <% } %>
@@ -263,13 +263,13 @@
                     <div class="form-group">
                       <label for="title">Title</label>
                       <input type="text" name="title" class="form-control" id="title"
-                        placeholder="Enter your post title" required="required" />
+                        placeholder="Enter your post title" required />
                     </div>
 
                     <div class="form-group">
                       <label for="subject">Brief Description</label>
                       <input type="text" name="title" class="form-control" id="subject"
-                        placeholder="Enter your post title" required="required" />
+                        placeholder="Enter your post title" required />
                     </div>
 
                     <div class="form-group mt-3">
@@ -280,7 +280,7 @@
 
                     <div class="form-group">
                       <label for="postContent">Content</label>
-                      <textarea class="form-control" id="postContent"></textarea>
+                      <textarea class="form-control" placeholder="Your content here" required id="postContent"></textarea>
                     </div>
 
                     <div class="d-flex justify-content-center justify-content-md-start">
@@ -302,20 +302,21 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="/js/toast.js"></script>
 
-  <script src="https://cdn.tiny.cloud/1/zmeht2ue8lcu1icuo458dfkh7rkyf6fuwgfr6je2hq2nuimv/tinymce/5/tinymce.min.js"
-    referrerpolicy="origin"></script>
-  <script>
+  <!-- <script src="https://cdn.tiny.cloud/1/zmeht2ue8lcu1icuo458dfkh7rkyf6fuwgfr6je2hq2nuimv/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script> -->
+  <!-- <script>
     tinymce.init({
       selector: 'textarea'
     });
-  </script>
+  </script> -->
 
   <script>
     document.getElementById('postFormBtn').addEventListener('click', async function (event) {
 
       const form = document.getElementById('postFormId');
       const [title, subject, fileData] = form.querySelectorAll('input');
-      const textarea = tinyMCE.get('postContent').getContent();
+      const textarea = document.getElementById('postContent').value;
+      // const textarea = tinyMCE.get('postContent').getContent();
 
       let addValidation = true;
 

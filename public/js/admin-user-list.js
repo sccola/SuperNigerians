@@ -16,7 +16,7 @@ function toBlock(userId, userName, csrf) {
                 },
             });
             swal({
-                title: 'Suspended!',
+                title: 'Blocked!',
                 text: `You have successfully Blocked ${userName} from Super Nigeria platform`,
                 type: 'success',
             }).then(() => {

@@ -53,7 +53,7 @@ userPhoto: async (req, res) =>{
  */
 
 // eslint-disable-next-line consistent-return
-const uploadPhoto = async (req, res, mediaType, sImage, size) => {
+const uploadPhoto = async (req, res, mediaType, sImage, size, next) => {
   if (!req.files) {
     return res.status(400).json({
       status:'error',
@@ -79,11 +79,9 @@ const uploadPhoto = async (req, res, mediaType, sImage, size) => {
    // console.log(url)
     return url;
   
-  } catch (e) {
-    // return res.status(500).json({
-    //   status:'error',
-    //   message:'Internal server error'
-    // })
-
+  } catch (err) {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);
   }
 }

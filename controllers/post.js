@@ -19,7 +19,7 @@ cloud.config({
 
 module.exports = {
     // eslint-disable-next-line consistent-return
-    userPost: async (req, res) => {
+    userPost: async (req, res, next) => {
         const {
             title,
             body,
@@ -61,10 +61,9 @@ module.exports = {
                 message: "Post successfully saved"
             })
         } catch (err) {
-            res.status(500).send({
-                status: 'error',
-                message: 'An error ocuured, makesure you filled all input field and avoid duplicate post'
-            })
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
         }
     },
     postView: async (req, res) => {
@@ -85,6 +84,11 @@ module.exports = {
         const post = await Post.find({
             slug
         }).populate('comments').populate('creator')
+
+        if(!post[0]){
+            return renderPage(res, 'pages/error404', 'Error | 404', ' ')
+        };
+
         const data = {
             post,
             success: req.flash('success'),
@@ -208,7 +212,7 @@ module.exports = {
  * verify the image 
  * upload the image to cloudinary
  */
-const uploadPhoto = async (req, res, mediaType, sImage, size) => {
+const uploadPhoto = async (req, res, mediaType, sImage, size, next) => {
     if (!req.files) {
         return res.status(400).json({
             status: 'error',
@@ -236,11 +240,10 @@ const uploadPhoto = async (req, res, mediaType, sImage, size) => {
         // console.log(url)
         return url;
 
-    } catch (e) {
-        return res.status(500).json({
-            status: 'error',
-            message: 'Internal server error'
-        })
+    } catch (err) {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
 
     }
 }

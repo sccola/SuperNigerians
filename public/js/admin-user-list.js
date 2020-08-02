@@ -38,7 +38,7 @@ function toUnBlock(userId, userName, csrf) {
     }).then(async (result) => {
         if (result.value) {
             await fetch(`/admin/unblock/${userId}`, {
-                method: 'PUT',
+                method: 'PATCH',
                 headers: {
                     'X-CSRF-TOKEN': csrf,
                     // 'Content-Type': 'application/x-www-form-urlencoded',
